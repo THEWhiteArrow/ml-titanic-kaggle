@@ -10,3 +10,7 @@ In order to run the project navigate to the main directory and run the main file
 ### Dataset
 
 Dataset belongs to the Kaggle Titanic competition and can be found [here](https://www.kaggle.com/c/titanic/data).
+
+### Best Model
+
+My best model achieved an accuracy of `0.77990` on the test set - roughly `78%`.

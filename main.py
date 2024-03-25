@@ -7,6 +7,12 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 
 
 def load_data() -> Tuple[DataFrame, DataFrame]:
+    """
+    Function that loads the Titanic dataset.
+
+    Returns:
+    - Tuple[DataFrame, DataFrame]: train_data, test_data
+    """
     train_data = pd.read_csv("./data/train.csv")
     test_data = pd.read_csv("./data/test.csv")
 
@@ -14,7 +20,16 @@ def load_data() -> Tuple[DataFrame, DataFrame]:
 
 
 def preprocess_data(data: DataFrame) -> Tuple[ndarray, ndarray | None]:
-    features_to_use = ["Pclass", "Sex", "Age", "Cabin", "SibSp", "Parch", "Embarked"]
+    """
+    Function that preprocesses the data for the Titanic dataset.
+
+    Args:
+    - data: DataFrame
+
+    Returns:
+    - Tuple[ndarray, ndarray | None]: x, y
+    """
+    features_to_use = ["Pclass", "Sex", "SibSp", "Parch", "Age"]
     dependent_variable = ["Survived"]
 
     # --- MAP AND FILL NONES ---
@@ -24,14 +39,30 @@ def preprocess_data(data: DataFrame) -> Tuple[ndarray, ndarray | None]:
     Provides the possible idea of where the cabin was located and if it was closer to the lifeboats.
     Additionally there is only one record of person in T cabin so lets simplify and remove it.
     """
-    if "Cabin" in features_to_use:
-        data["Cabin"] = (
-            data["Cabin"]
-            .fillna("Z")
-            .map(lambda cabin: cabin[0] if cabin[0] != "T" else "Z")
-        )
+    data["Cabin"] = (
+        data["Cabin"]
+        .fillna("Z")
+        .map(lambda cabin: cabin[0] if cabin[0] != "T" else "Z")
+    )
 
-    data["Age"] = data["Age"].fillna(data["Age"].mean())
+    def mapAge(age: float) -> str:
+        """
+        Maps the age to proper catogories as for life expectancy in 1912.
+
+        Args:
+        - age: float
+
+        Returns:
+        - str: "Child", "Adult", "Elderly"
+        """
+        if age < 18:
+            return "Child"
+        elif age < 50:
+            return "Adult"
+        else:
+            return "Elderly"
+
+    data["Age"] = data["Age"].fillna(data["Age"].mean()).map(mapAge)
 
     x = data[features_to_use]
 
@@ -47,6 +78,9 @@ def preprocess_data(data: DataFrame) -> Tuple[ndarray, ndarray | None]:
 
 
 def main():
+    """
+    Main function that runs the entire pipeline for the Titanic dataset.
+    """
     # --- SETUP ---
     train_dataframe, test_dataframe = load_data()
 
