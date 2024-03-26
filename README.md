@@ -7,6 +7,7 @@ This is a beginner-friendly machine learning project where we use Random Forest 
 #### Default
 
 In order to run this project, you need to have Python installed on your machine. Install the dependencies using the `requirements.txt` file with `pip install -r requirements.txt`.
+Download the dataset from the [Kaggle competition page](https://www.kaggle.com/c/titanic/data) and extract it into the `data` directory. Please note that due to the rules of the challenge/competition, the data files should not be shared with individuals who have not agreed to the competition rules.
 In order to run the project navigate to the main directory and run the main file using the command `python main.py`.
 
 #### Advanced
